@@ -39,12 +39,13 @@ namespace TeamWorkFlowApp.Extentions
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOrdererService, OrdererService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
         }
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IOrdererRepository, OrdererRepository>();
-
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         }
     }
 
