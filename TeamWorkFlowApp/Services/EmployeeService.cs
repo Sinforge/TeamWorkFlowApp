@@ -32,6 +32,16 @@ namespace TeamWorkFlowApp.Services
             return await _employeeRepository.GetOrderTasksAsync(orderId);
         }
 
+        public async Task<PersonalData> GetPersonalDataAsync(int employeeId)
+        {
+            return await _employeeRepository.GetPersonalDataAsync(employeeId);
+        }
+
+        public async System.Threading.Tasks.Task UpdatePersonalDataAsync(PersonalData personalData)
+        {
+            await _employeeRepository.UpdatePersonalDataAsync(personalData);
+        }
+
         public async System.Threading.Tasks.Task UpdateTaskAsync(Models.Task task)
         {
             await _employeeRepository.UpdateTaskAsync(task);

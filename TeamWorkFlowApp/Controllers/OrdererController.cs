@@ -9,7 +9,7 @@ using TeamWorkFlowApp.Services.Interfaces;
 namespace TeamWorkFlowApp.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User, Admin")]
     [ApiController]
     public class OrdererController : ControllerBase
     {

@@ -10,7 +10,7 @@ namespace TeamWorkFlowApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="Employee")]
+    [Authorize(Roles ="Employee, Admin")]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
@@ -43,15 +43,21 @@ namespace TeamWorkFlowApp.Controllers
              );
         }
         [HttpPut("order/{orderId}/task")]
-        public async System.Threading.Tasks.Task UpdateOrderTask([FromRoute] int orderId, [FromBody] Models.Task task)
+        public async System.Threading.Tasks.Task UpdateOrderTask([FromRoute] int orderId, [FromBody] Models.Task task) => _ = _employeeService.UpdateTaskAsync(task);
+        [HttpDelete("order/{orderId}/task")]
+        public async System.Threading.Tasks.Task DeleteTask([FromRoute] int orderId, [FromQuery] int id) => _ = _employeeService.DeleteTaskAsync(id);
+        [HttpGet("personal_data")]
+        public  async Task<PersonalData> GetPersonalData()
         {
-            _ = _employeeService.UpdateTaskAsync(task);
+            return await _employeeService.GetPersonalDataAsync(int.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "id").Value));
 
         }
-        [HttpDelete("order/{orderId}/task")]
-        public async System.Threading.Tasks.Task DeleteTask([FromRoute] int orderId, [FromQuery] int id)
+        [HttpPost("personal_data")]
+        public async System.Threading.Tasks.Task UpdatePersonalData([FromBody] PersonalData personalData)
         {
-            _ = _employeeService.DeleteTaskAsync(id);
+            _ = _employeeService.UpdatePersonalDataAsync(personalData);
+
+
         }
     }
 }

@@ -9,5 +9,7 @@ namespace TeamWorkFlowApp.Services.Interfaces
         public System.Threading.Tasks.Task CreateOrderTaskAsync(Models.Task task);
         public System.Threading.Tasks.Task UpdateTaskAsync(Models.Task task);
         public System.Threading.Tasks.Task DeleteTaskAsync(int taskId);
+        public Task<PersonalData> GetPersonalDataAsync(int employeeId);
+        public System.Threading.Tasks.Task UpdatePersonalDataAsync(PersonalData personalData);
     }
 }

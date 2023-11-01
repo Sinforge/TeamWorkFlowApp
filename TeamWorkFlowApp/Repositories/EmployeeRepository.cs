@@ -55,6 +55,29 @@ namespace TeamWorkFlowApp.Repositories
             return tasks;
         }
 
+        public async Task<PersonalData> GetPersonalDataAsync(int employeeId)
+        {
+            string selectQuery = "select * from personal_data where id = (select personal_data_id from employee where id = @id LIMIT 1);";
+            PersonalData? personalData;
+            using(var connection = _context.CreateConnection())
+            {
+                personalData = await connection.QueryFirstOrDefaultAsync<PersonalData>(selectQuery, new { id = employeeId });
+            }
+            return personalData;
+
+        }
+
+        public async System.Threading.Tasks.Task UpdatePersonalDataAsync(PersonalData personalData)
+        {
+            string updateQuery = "update personal_data" +
+                " set email = @email, address = @address, health_status_id = @health_status_id " +
+                "where id = @id;";
+            using(var connection = _context.CreateConnection())
+            {
+                _ = connection.ExecuteAsync(updateQuery, personalData);
+            }
+        }
+
         public async System.Threading.Tasks.Task UpdateTaskAsync(Models.Task task)
         {
            
