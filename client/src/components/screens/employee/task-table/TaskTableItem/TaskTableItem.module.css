@@ -1,0 +1,7 @@
+.task_table_item {
+    border-style: solid;
+    width: 100%;
+}
+.task_table_item > div {
+    padding: 10px;
+}

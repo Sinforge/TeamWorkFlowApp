@@ -1,0 +1,11 @@
+.table {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+    height: 100%;
+  }
+  
+  .table > div {
+    background-color: lightgray;
+    padding: 10px;
+  }
