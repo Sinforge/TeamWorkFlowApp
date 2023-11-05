@@ -1,6 +1,7 @@
 .preview {
     color: black;
     display: flex;
+    gap: 20px;
     text-decoration: none;
     padding: 40px;
 }

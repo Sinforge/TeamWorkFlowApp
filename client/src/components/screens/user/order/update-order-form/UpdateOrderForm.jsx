@@ -1,18 +1,22 @@
 import { useState } from "react";
+import useAxiosPrivate from "../../../../../hooks/useAxiosPrivate";
+import { UpdateOrder } from "../../../../../services/order.service";
 
 const UpdateOrderForm = ({order}) => {
-    const [form, setForm] = useState(order)
+    const axios = useAxiosPrivate()
+
+    const [form, setForm] = useState({...order})
     return (
         <div>
             <h1>Update your order</h1>
             <h3>Description</h3>
-            <textarea key="description" value={order.description} onChange={e => setForm({...form, description : e.target.value})}></textarea>
+            <textarea key="description" value={form?.description} onChange={e => setForm({...form, description : e.target.value})}></textarea>
             <h3>Price</h3>
-            <input key="price" value={order.price} onChange={e => setForm({...form, price : e.target.value})}></input>
+            <input key="price" value={form?.price} onChange={e => setForm({...form, price : e.target.value})}></input>
             <h3>Status id</h3>
-            <input key="status_id" value={order.status_id} onChange={e => setForm({...form, status_id : e.target.value})}></input>
+            <input key="stage_id" value={form?.stage_id} onChange={e => setForm({...form, stage_id : e.target.value})}></input>
             <br/>
-            <button>Update</button>
+            <button onClick={()=> UpdateOrder(axios, form)}>Update</button>
         </div>
     
     )
