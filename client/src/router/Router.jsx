@@ -16,20 +16,46 @@ import Specilizations from '../components/screens/admin/specialization/Specializ
 import Tasks from '../components/screens/admin/task/AdminTask';
 import User from '../components/screens/admin/user/User';
 import EmployeeOrders from '../components/screens/admin/employee-order/EmployeeOrder';
-
+import useAuth from '../hooks/useAuth';
+import { useContext } from 'react';
+import { AuthContext } from '../providers/AuthProvider';
+import { jwtDecode } from 'jwt-decode';
 const Router = () => {
+
+    const [user, setUser] = useContext(AuthContext)
+    console.log(user);
+    const isUserLoggedIn = user?.access_token !== undefined && user?.access_token !== null
+    console.log(isUserLoggedIn)
+    //get user role from jwt
+    let userRole = null;
+    if (isUserLoggedIn) {
+        userRole = jwtDecode(user.access_token)["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+    }
     return (
     <BrowserRouter>
         <Header/>
         <Routes>
-            <Route element={<Login/>} path="/login"/>
-            <Route element={<Registration/>} path="/registration"/> 
-            <Route element={<CreateOrder/>} path="/create-order"/>
-            <Route exact element={<OrderList/>} path="/order"/>
-            <Route element={<Order/>} path="/order/:id"/>
-            <Route exact element={<EmployeeOrderList/>} path="/employee-order"/>
-            <Route element={<TaskTable/>} path="/employee-order/:id/task"/>
-            <Route element={<Profile/>} path="/profile"/>
+            {!isUserLoggedIn &&(
+                <>
+                    <Route element={<Login/>} path="/login"/>
+                    <Route element={<Registration/>} path="/registration"/> 
+                </>
+            )}
+            {userRole === "User" && (
+                <>
+                    <Route element={<CreateOrder/>} path="/create-order"/>
+                    <Route exact element={<OrderList/>} path="/order"/>
+                    <Route element={<Order/>} path="/order/:id"/>
+                </>
+            )}
+            {userRole === "Employee" && (
+                <>
+                    <Route exact element={<EmployeeOrderList/>} path="/employee-order"/>
+                    <Route element={<TaskTable/>} path="/employee-order/:id/task"/>
+                    <Route element={<Profile/>} path="/profile"/>
+                </>
+            )}
+            {userRole === "Admin" && (
             <Route  exact path="/admin">
                 <Route element={<Contract/>} path="/admin/contract"/>
                 <Route element={<Employee/>} path="/admin/employee"/>
@@ -40,6 +66,7 @@ const Router = () => {
                 <Route element={<User/>} path="/admin/user"/>
                 <Route element={<EmployeeOrders/>} path="/admin/employee-orders"/>
             </Route>
+            )}
         </Routes>
     </BrowserRouter>
     );

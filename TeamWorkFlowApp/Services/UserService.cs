@@ -57,6 +57,10 @@ namespace TeamWorkFlowApp.Services
         public async Task<User?> CheckUserCredentials(string login, string password)
         {
             User? user = await _userRepository.CheckUserCredentials(login);
+            if(user == null)
+            {
+                return null;
+            }
             var verifyResult = new PasswordHasher<object?>().VerifyHashedPassword(null, user.password, password);
             if (verifyResult == PasswordVerificationResult.Failed)
             {

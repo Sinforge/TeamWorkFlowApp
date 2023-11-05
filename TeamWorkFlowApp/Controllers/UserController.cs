@@ -40,7 +40,7 @@ namespace TeamWorkFlowApp.Controllers
             else return StatusCode(400);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("authorize")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,13 +87,13 @@ namespace TeamWorkFlowApp.Controllers
                 audience: _options.Value.Aud,
                 claims: claims,
                 notBefore: DateTime.Now,
-                expires: DateTime.Now.Add(TimeSpan.FromMinutes(2)),
+                expires: DateTime.Now.Add(TimeSpan.FromDays(1)),
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
             );
 
             var encodedJWT = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            var response = new JwtResponse(encodedJWT, (int)TimeSpan.FromMinutes(2).TotalSeconds);
+            var response = new JwtResponse(encodedJWT, (int)TimeSpan.FromDays(1).TotalSeconds);
             return response;
         }
         [NonController]
