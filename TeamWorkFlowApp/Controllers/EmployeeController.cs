@@ -22,7 +22,7 @@ namespace TeamWorkFlowApp.Controllers
         [HttpGet("order")]
         public async Task<IEnumerable<Order>> GetEmployeeOrders()
         {
-            return await _employeeService.GetEmployeeOrdersAsync(int.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "id").Value));
+            return await _employeeService.GetEmployeeOrdersAsync(int.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "employee_id").Value));
         }
         [HttpGet("order/{orderId}/task")]
         public async Task<IEnumerable<Models.Task>> GetOrderTasks([FromRoute] int orderId)
@@ -49,7 +49,7 @@ namespace TeamWorkFlowApp.Controllers
         [HttpGet("personal_data")]
         public  async Task<PersonalData> GetPersonalData()
         {
-            return await _employeeService.GetPersonalDataAsync(int.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "id").Value));
+            return await _employeeService.GetPersonalDataAsync(int.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "employee_id").Value));
 
         }
         [HttpPost("personal_data")]

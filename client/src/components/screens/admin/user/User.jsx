@@ -1,41 +1,48 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import styles from '../SharedTable.module.css'
-const mockData = [
-    {
-        id : 1,
-        login : "vlad.vlasov77@mail.ru",
-        password: "Parkovya 11 d 36",
-        role_id: 1,
-        employee_id: null
-    },
-    {
-        id : 2,
-        login : "vlad.vlasov77@mail.ru",
-        password: "Parkovya 11 d 36",
-        role_id: 1,
-        employee_id: null
-    },
-    {
-        id : 3,
-        login : "vlad.vlasov77@mail.ru",
-        password: "Parkovya 11 d 36",
-        role_id: 1,
-        employee_id: null
-    },
-]
+import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
+import { GetAllUser, UpdateUser, DeleteUser} from '../../../../services/admin.service';
+// const mockData = [
+//     {
+//         id : 1,
+//         login : "vlad.vlasov77@mail.ru",
+//         password: "Parkovya 11 d 36",
+//         role_id: 1,
+//         employee_id: null
+//     },
+//     {
+//         id : 2,
+//         login : "vlad.vlasov77@mail.ru",
+//         password: "Parkovya 11 d 36",
+//         role_id: 1,
+//         employee_id: null
+//     },
+//     {
+//         id : 3,
+//         login : "vlad.vlasov77@mail.ru",
+//         password: "Parkovya 11 d 36",
+//         role_id: 1,
+//         employee_id: null
+//     },
+// ]
 const User = () => {
-    const [user, setUser] = useState(mockData);
+    const axios = useAxiosPrivate();
+    const [user, setUser] = useState([]);
     const [createUser, setCreateUser] = useState({});
-
+    useEffect(() => {
+        GetAllUser(axios).then((response) =>  {
+            setUser(response.data);
+        })
+    },[])
     const updateUser= (id, index) =>{
         console.log(`Update user ${user[index]}`)
-        //send date to server
+        UpdateUser(axios, user[index])
         
 
     }
     const deleteUser = (id) => {
         console.log(`Delete user with id ${id}`)
-        // delete condition action
+        DeleteUser(axios, id)
     }
     const handleUserChange = (index, value) => {
         console.log(value);
@@ -73,19 +80,7 @@ const User = () => {
 
                 
             </table>
-            <h2>Create new user</h2>
-            <div>
-                <h3>Login</h3>
-                <input type="email" onChange={(e) => setCreateUser({...createUser, login: e.target.value})}></input>
-                <h3>Password</h3>
-                <input type="text"onChange={(e) => setCreateUser({...createUser, passowrd : e.target.value})} ></input>
-                <h3>Role id</h3>
-                <input type="number" onChange={(e) => setCreateUser({...createUser, role_id: parseInt(e.target.value)})}></input>
-                <h3>Employee id</h3>
-                <input type="number" onChange={(e) => setCreateUser({...createUser, employee_id: parseInt(e.target.value)})}></input>
 
-                <button>Create</button>
-            </div>
         </div>
     )
 

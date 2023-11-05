@@ -1,16 +1,21 @@
+import { useState } from "react"
+import useAxiosPrivate from "../../../../../hooks/useAxiosPrivate";
+import { DeleteTask, UpdateTask } from "../../../../../services/employee.service";
 const UpdateTaskModal = ({item, handleCloseModal}) => {
     // update form
+    const axios = useAxiosPrivate()
+    const [form, setForm] = useState(item);
     return(
         <div className="modal">
             <div className="modal-content">
               <div>
                 <h3>Name</h3>
-                <input value={item.name} onChange={(e) => {item.name = e.target.value}} />
+                <input value={form.name} onChange={(e) => setForm({...form, name : e.target.value})} />
                 <h3>Description</h3>
-                <textarea value={item.description} onChange={(e) => {item.description = e.target.value}} />
-                <button>Change</button>
+                <textarea value={form.description} onChange={(e) => setForm({...form, description : e.target.value})} />
+                <button onClick={() => UpdateTask(axios, form)}>Change</button>
               </div>
-              <button>Delete</button>
+              <button onClick={() => DeleteTask(axios, item.id)}>Delete</button>
               <button onClick={handleCloseModal}>Закрыть</button>
             </div>
           </div>

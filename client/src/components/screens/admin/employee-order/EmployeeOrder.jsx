@@ -1,26 +1,34 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import styles from '../SharedTable.module.css'
-const mockData = [
-    {
-        order_id : 1,
-        employee_id : 1,
-    },
-    {
-        order_id : 1,
-        employee_id : 1,
-    },
-    {
-        order_id : 1,
-        employee_id : 1,
-    },
-]
+import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
+import { CreateEmployeeOrder, DeleteEmployeeOrder, GetAllEmployeeOrder } from '../../../../services/admin.service';
+// const mockData = [
+//     {
+//         order_id : 1,
+//         employee_id : 1,
+//     },
+//     {
+//         order_id : 1,
+//         employee_id : 1,
+//     },
+//     {
+//         order_id : 1,
+//         employee_id : 1,
+//     },
+// ]
 const EmployeeOrders = () => {
-    const [employeeOrders, setEmployeeOrders] = useState(mockData);
+    const axios = useAxiosPrivate()
+    const [employeeOrders, setEmployeeOrders] = useState([]);
     const [createEmployeeOrders, setCreateEmployeeOrders] = useState({});
 
-    const deleteEmployeeOrders = (id) => {
-        console.log(`Delete employeeOrders with id ${id}`)
-        // delete condition action
+    useEffect(() => {
+        GetAllEmployeeOrder(axios).then((response) => {
+            setEmployeeOrders(response.data)
+        })
+    }, [])
+    const deleteEmployeeOrders = (item) => {
+        console.log(item)
+        DeleteEmployeeOrder(axios, item)
     }
 
     return (
@@ -37,7 +45,7 @@ const EmployeeOrders = () => {
                         <td>{eo.order_id}</td>
                         <td>{eo.employee_id}</td>
                     
-                        <td><button onClick={(() => deleteEmployeeOrders(eo.id))}>Delete</button></td>
+                        <td><button onClick={(() => deleteEmployeeOrders(eo))}>Delete</button></td>
                     </tr>)
                 }
                 </tbody>
@@ -47,11 +55,11 @@ const EmployeeOrders = () => {
             <h2>Create new employeeOrders</h2>
             <div>
                 <h3>Order id</h3>
-                <input type="number" onChange={(e) => setCreateEmployeeOrders({...createEmployeeOrders, employee_id: parseInt(e.target.value)})}></input>
+                <input type="number" onChange={(e) => setCreateEmployeeOrders({...createEmployeeOrders, order_id: parseInt(e.target.value)})}></input>
                 <h3>Employee id</h3>
                 <input type="number"onChange={(e) => setCreateEmployeeOrders({...createEmployeeOrders, employee_id : parseInt(e.target.value)})} ></input>
 
-                <button>Create</button>
+                <button onClick={() => CreateEmployeeOrder(axios, createEmployeeOrders)}>Create</button>
             </div>
         </div>
     )

@@ -7,6 +7,7 @@ using System.Text;
 using TeamWorkFlowApp.Configuration;
 using TeamWorkFlowApp.DTO;
 using TeamWorkFlowApp.Models;
+using TeamWorkFlowApp.Repositories.Interfaces;
 using TeamWorkFlowApp.Services.Interfaces;
 
 namespace TeamWorkFlowApp.Controllers
@@ -64,6 +65,7 @@ namespace TeamWorkFlowApp.Controllers
             var claims = new List<Claim>
             {
                 new Claim("id", user.id.ToString()),
+                new Claim("employee_id", user.employee_id.ToString()),
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.login),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, await _userService.GetUserRoleById(user.role_id))
             };

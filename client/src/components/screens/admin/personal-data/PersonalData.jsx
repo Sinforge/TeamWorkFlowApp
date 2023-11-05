@@ -1,37 +1,45 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import styles from '../SharedTable.module.css'
-const mockData = [
-    {
-        id : 1,
-        email : "vlad.vlasov77@mail.ru",
-        address: "Parkovya 11 d 36",
-        health_status_id: 1,
-    },
-    {
-        id : 2,
-        email : "vlad.vlasov77@mail.ru",
-        address: "Parkovya 11 d 36",
-        health_status_id: 1,
-    },
-    {
-        id : 3,
-        email : "vlad.vlasov77@mail.ru",
-        address: "Parkovya 11 d 36",
-        health_status_id: 1,
-    },
-]
+import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
+import { CreatePersonalData, DeletePersonalData, GetAllPersonalData, UpdatePersonalData } from '../../../../services/admin.service';
+// const mockData = [
+//     {
+//         id : 1,
+//         email : "vlad.vlasov77@mail.ru",
+//         address: "Parkovya 11 d 36",
+//         health_status_id: 1,
+//     },
+//     {
+//         id : 2,
+//         email : "vlad.vlasov77@mail.ru",
+//         address: "Parkovya 11 d 36",
+//         health_status_id: 1,
+//     },
+//     {
+//         id : 3,
+//         email : "vlad.vlasov77@mail.ru",
+//         address: "Parkovya 11 d 36",
+//         health_status_id: 1,
+//     },
+// ]
 const PersonalData = () => {
-    const [personalData, setPersonalData] = useState(mockData);
+    const axios = useAxiosPrivate();
+    const [personalData, setPersonalData] = useState([]);
     const [createPersonalData, setCreatePersonalData] = useState({});
 
+    useEffect(() => {
+        GetAllPersonalData(axios).then((response) => {
+            setPersonalData(response.data)
+        })
+    },[])
     const updatePersonalData= (id, index) =>{
         console.log(`Update personalData ${personalData[index]}`)
-        //send date to server
-        
+        UpdatePersonalData(axios, personalData[index])
 
     }
     const deletePersonalData = (id) => {
         console.log(`Delete personalData with id ${id}`)
+        DeletePersonalData(axios, id)
         // delete condition action
     }
     const handlePersonalDataChange = (index, value) => {
@@ -76,7 +84,7 @@ const PersonalData = () => {
                 <h3>Health status id</h3>
                 <input type="number" onChange={(e) => setCreatePersonalData({...createPersonalData, health_status_id: parseInt(e.target.value)})}></input>
             
-                <button>Create</button>
+                <button onClick={() => CreatePersonalData(axios, createPersonalData)}>Create</button>
             </div>
         </div>
     )

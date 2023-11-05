@@ -1,41 +1,48 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import styles from '../SharedTable.module.css'
-const mockData = [
-    {
-        id : 1,
-        name : "name",
-        description: "Parkovya 11 d 36",
-        order_id: 1,
-        task_status_id: 2
-    },
-    {
-        id : 2,
-        name : "name",
-        description: "Parkovya 11 d 36",
-        order_id: 1,
-        task_status_id: 2
-    },
-    {
-        id : 3,
-        name : "name",
-        description: "Parkovya 11 d 36",
-        order_id: 1,
-        task_status_id: 2
-    },
-]
+import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
+import { CreateTask, DeleteTask, GetAllTasks, UpdateTask } from '../../../../services/admin.service';
+// const mockData = [
+//     {
+//         id : 1,
+//         name : "name",
+//         description: "Parkovya 11 d 36",
+//         order_id: 1,
+//         task_status_id: 2
+//     },
+//     {
+//         id : 2,
+//         name : "name",
+//         description: "Parkovya 11 d 36",
+//         order_id: 1,
+//         task_status_id: 2
+//     },
+//     {
+//         id : 3,
+//         name : "name",
+//         description: "Parkovya 11 d 36",
+//         order_id: 1,
+//         task_status_id: 2
+//     },
+// ]
 const Tasks = () => {
-    const [tasks, setTasks] = useState(mockData);
+    const axios = useAxiosPrivate()
+    const [tasks, setTasks] = useState([]);
     const [createTasks, setCreateTasks] = useState({});
-
+    useEffect(() => {
+        GetAllTasks(axios).then((response) => {
+            setTasks(response.data);
+        })
+    },[])
     const updateTasks= (id, index) =>{
         console.log(`Update tasks ${tasks[index]}`)
-        //send date to server
+        UpdateTask(axios, tasks[index])
         
 
     }
     const deleteTasks = (id) => {
         console.log(`Delete tasks with id ${id}`)
-        // delete condition action
+        DeleteTask(axios, id)
     }
     const handleTasksChange = (index, value) => {
         console.log(value);
@@ -84,7 +91,7 @@ const Tasks = () => {
                 <h3>Task status id</h3>
                 <input type="number" onChange={(e) => setCreateTasks({...createTasks, task_status_id: parseInt(e.target.value)})}></input>
             
-                <button>Create</button>
+                <button onClick={() => CreateTask(axios, createTasks)}>Create</button>
             </div>
         </div>
     )

@@ -1,35 +1,43 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import styles from '../SharedTable.module.css'
-const mockData = [
-    {
-        id : 1,
-        name : "Backend developer",
-        payment: 142000,
-    },
-    {
-        id : 2,
-        name : "Backend developer",
-        payment: 142000,
-    },
-    {
-        id : 3,
-        name : "Backend developer",
-        payment: 142000,
-    },
-]
+import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
+import { CreateSpecialization, DeleteSpecialization, GetAllSpecializations, UpdateSpecialization } from '../../../../services/admin.service';
+// const mockData = [
+//     {
+//         id : 1,
+//         name : "Backend developer",
+//         payment: 142000,
+//     },
+//     {
+//         id : 2,
+//         name : "Backend developer",
+//         payment: 142000,
+//     },
+//     {
+//         id : 3,
+//         name : "Backend developer",
+//         payment: 142000,
+//     },
+// ]
 const Specilizations = () => {
-    const [specilizations, setSpecilizations] = useState(mockData);
+    const [specilizations, setSpecilizations] = useState([]);
     const [createSpecilizations, setCreateSpecilizations] = useState({});
-
+    const axios = useAxiosPrivate();
+    console.log(createSpecilizations);
+    useEffect(() => {
+        GetAllSpecializations(axios).then((response) => {
+            setSpecilizations(response.data)
+        })
+    }, [])
     const updateSpecilizations= (id, index) =>{
         console.log(`Update specilizations ${specilizations[index]}`)
-        //send date to server
+        UpdateSpecialization(axios, specilizations[index])
         
 
     }
     const deleteSpecilizations = (id) => {
         console.log(`Delete specilizations with id ${id}`)
-        // delete condition action
+        DeleteSpecialization(axios, id);
     }
     const handleSpecilizationsChange = (index, value) => {
         console.log(value);
@@ -69,7 +77,7 @@ const Specilizations = () => {
                 <h3>Payment</h3>
                 <input type="number" onChange={(e) => setCreateSpecilizations({...createSpecilizations, payment: parseInt(e.target.value)})} ></input>
 
-                <button>Create</button>
+                <button onClick={() => CreateSpecialization(axios, createSpecilizations)}>Create</button>
             </div>
         </div>
     )

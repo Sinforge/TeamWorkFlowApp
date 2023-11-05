@@ -1,52 +1,61 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import styles from '../SharedTable.module.css'
-const mockData = [
-    {
-        id : 1,
-        company_name: "Bob",
-        description : "desc1",
-        price: 12041.20,
-        stage_id : 1,
-        contract_id: 1
-    },
-    {
-        id : 2,
-        company_name: "Bob",
-        description : "desc1",
-        price: 12041.20,
-        stage_id : 1,
-        contract_id: 1
-    },
-    {
-        id : 3,
-        company_name: "Bob",
-        description : "desc1",
-        price: 12041.20,
-        stage_id : 1,
-        contract_id: 1
-    },
-    {
-        id : 4,
-        company_name: "Bob",
-        description : "desc1",
-        price: 12041.20,
-        stage_id : 1,
-        contract_id: 1
-    }
-]
+import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
+import { CreateOrder, DeleteOrder, GetAllOrders, UpdateOrder } from '../../../../services/admin.service';
+// const mockData = [
+//     {
+//         id : 1,
+//         company_name: "Bob",
+//         description : "desc1",
+//         price: 12041.20,
+//         stage_id : 1,
+//         contract_id: 1
+//     },
+//     {
+//         id : 2,
+//         company_name: "Bob",
+//         description : "desc1",
+//         price: 12041.20,
+//         stage_id : 1,
+//         contract_id: 1
+//     },
+//     {
+//         id : 3,
+//         company_name: "Bob",
+//         description : "desc1",
+//         price: 12041.20,
+//         stage_id : 1,
+//         contract_id: 1
+//     },
+//     {
+//         id : 4,
+//         company_name: "Bob",
+//         description : "desc1",
+//         price: 12041.20,
+//         stage_id : 1,
+//         contract_id: 1
+//     }
+// ]
 const AdminOrder = () => {
-    const [adminOrder, setAdminOrder] = useState(mockData);
+    const axios = useAxiosPrivate();
+    const [adminOrder, setAdminOrder] = useState([]);
     const [createAdminOrder, setCreateAdminOrder] = useState({});
 
+    useEffect(() => {
+        GetAllOrders(axios).then((response) => {
+            setAdminOrder(response.data)
+        })
+    },[])
     const updateAdminOrder= (id, index) =>{
         console.log(`Update adminOrder ${adminOrder[index]}`)
+        UpdateOrder(axios, adminOrder[index])
         //send date to server
         
 
     }
     const deleteAdminOrder = (id) => {
         console.log(`Delete adminOrder with id ${id}`)
-        // delete condition action
+        DeleteOrder(axios, id)
     }
     const handleAdminOrderChange = (index, value) => {
         console.log(value);
@@ -97,7 +106,7 @@ const AdminOrder = () => {
                 <h3>Contract id</h3>
                 <input onChange={(e) => setCreateAdminOrder({...createAdminOrder, contract_id: parseInt(e.target.value)})}></input>
                 
-                <button>Create</button>
+                <button onClick={() => CreateOrder(axios, createAdminOrder)}>Create</button>
             </div>
         </div>
     )

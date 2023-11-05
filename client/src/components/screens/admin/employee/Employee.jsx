@@ -1,48 +1,55 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import styles from '../SharedTable.module.css'
-const mockData = [
-    {
-        id : 1,
-        name: "Bob",
-        count_of_completed_orders : 10,
-        personal_data_id : 1,
-        specialization_id : 2,
-    },
-    {
-        id : 2,
-        name: "Vitaly",
-        count_of_completed_orders : 10,
-        personal_data_id : 1,
-        specialization_id : 2,
-    },
-    {
-        id : 3,
-        name: "Vlad",
-        count_of_completed_orders : 10,
-        personal_data_id : 1,
-        specialization_id : 2,
-    },
-    {
-        id : 4,
-        name: "Fedor",
-        count_of_completed_orders : 10,
-        personal_data_id : 1,
-        specialization_id : 2,
-    }
-]
+import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
+import { CreateEmployee, DeleteEmployee, GetAllEmployee, UpdateContract, UpdateEmployee } from '../../../../services/admin.service';
+// const mockData = [
+//     {
+//         id : 1,
+//         name: "Bob",
+//         count_of_completed_orders : 10,
+//         personal_data_id : 1,
+//         specialization_id : 2,
+//     },
+//     {
+//         id : 2,
+//         name: "Vitaly",
+//         count_of_completed_orders : 10,
+//         personal_data_id : 1,
+//         specialization_id : 2,
+//     },
+//     {
+//         id : 3,
+//         name: "Vlad",
+//         count_of_completed_orders : 10,
+//         personal_data_id : 1,
+//         specialization_id : 2,
+//     },
+//     {
+//         id : 4,
+//         name: "Fedor",
+//         count_of_completed_orders : 10,
+//         personal_data_id : 1,
+//         specialization_id : 2,
+//     }
+// ]
 const Employee = () => {
-    const [employee, setEmployee] = useState(mockData);
+    const axios = useAxiosPrivate();
+    const [employee, setEmployee] = useState([]);
     const [createEmployee, setCreateEmployee] = useState({});
-
+    useEffect(() => {
+        GetAllEmployee(axios).then((response) => {
+            setEmployee(response.data)
+        })
+    }, [])
     const updateEmployee= (id, index) =>{
         console.log(`Update employee ${employee[index]}`)
-        //send date to server
+        UpdateEmployee(axios, employee[index])
         
 
     }
     const deleteEmployee = (id) => {
         console.log(`Delete employee with id ${id}`)
-        // delete condition action
+        DeleteEmployee(axios, id);
     }
     const handleEmployeeChange = (index, value) => {
         console.log(value);
@@ -67,7 +74,7 @@ const Employee = () => {
                     <tr key={empl.id} className={styles.row}>
                         <td>{empl.id}</td>
                         <td><input onChange={(e) => handleEmployeeChange(index, {...employee[index], name: e.target.value})} type="text" value={employee[index].name}></input></td>
-                        <td><input onChange={(e) => handleEmployeeChange(index, {...employee[index], count_of_completed_orders: parseInt(e.target.value)})} type="number" value={employee[index].count_of_completed_orders}></input></td>
+                        <td><input onChange={(e) => handleEmployeeChange(index, {...employee[index], count_completed_orders: parseInt(e.target.value)})} type="number" value={employee[index].count_completed_orders}></input></td>
                         <td><input onChange={(e) => handleEmployeeChange(index, {...employee[index], personal_data_id: parseInt(e.target.value)})} type="number" value={employee[index].personal_data_id}></input></td>
                         <td><input onChange={(e) => handleEmployeeChange(index, {...employee[index], specialization_id: parseInt(e.target.value)})} type="number" value={employee[index].specialization_id}></input></td>
 
@@ -87,7 +94,7 @@ const Employee = () => {
                 <input onChange={(e) => setCreateEmployee({...createEmployee, personal_data_id: e.target.value})} ></input>
                 <h3>Specialization id</h3>
                 <input onChange={(e) => setCreateEmployee({...createEmployee, specialization_id: e.target.value})}></input>
-                <button>Create</button>
+                <button onClick={() => CreateEmployee(axios, createEmployee)}>Create</button>
             </div>
         </div>
     )

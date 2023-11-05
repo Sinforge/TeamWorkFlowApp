@@ -1,62 +1,74 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import TaskTableItem from './TaskTableItem/TaskTableItem';
 import styles from './TaskTable.module.css'
 import CreateTaskForm from './create-task-form/CreateTaskForm';
 import UpdateTaskModal from './update-task-modal/UpdateTaskModal';
-const tableData = [
-    {
-        id : 1,
-        name : "task1",
-        description : "desc1",
-        order_id : 1,
-        task_status_id : 1
+import { GetOrderTasks, UpdateTask } from '../../../../services/employee.service';
+import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
+// const tableData = [
+//     {
+//         id : 1,
+//         name : "task1",
+//         description : "desc1",
+//         order_id : 1,
+//         task_status_id : 1
 
-    },
-    {
-        id : 2,
-        name : "task2",
-        description : "desc2",
-        order_id : 1,
-        task_status_id : 2
+//     },
+//     {
+//         id : 2,
+//         name : "task2",
+//         description : "desc2",
+//         order_id : 1,
+//         task_status_id : 2
 
-    },
-    {
-        id : 3,
-        name : "task3",
-        description : "desc3",
-        order_id : 1,
-        task_status_id : 3
+//     },
+//     {
+//         id : 3,
+//         name : "task3",
+//         description : "desc3",
+//         order_id : 1,
+//         task_status_id : 3
 
-    },
-    {
-        id : 4,
-        name : "task4",
-        description : "desc4",
-        order_id : 1,
-        task_status_id : 4
+//     },
+//     {
+//         id : 4,
+//         name : "task4",
+//         description : "desc4",
+//         order_id : 1,
+//         task_status_id : 4
 
-    },
-    {
-        id : 5,
-        name : "task5",
-        description : "desc5",
-        order_id : 1,
-        task_status_id : 5
+//     },
+//     {
+//         id : 5,
+//         name : "task5",
+//         description : "desc5",
+//         order_id : 1,
+//         task_status_id : 5
 
-    }
+//     }
     
-]
+// ]
 const TaskTable = () => {
-    // items of columns
-    const [backlogItems, setBacklogItems] = useState(tableData.filter((task) => task.task_status_id === 1));
-    const [inProgressItems, setInProgressItems] = useState(tableData.filter((task) => task.task_status_id === 2));
-    const [developmentItems, setDevelopmentItems] = useState(tableData.filter((task) => task.task_status_id === 3));
-    const [testingItems, setTestingItems] = useState(tableData.filter((task) => task.task_status_id === 4));
-    const [doneItems, setDoneItems] = useState(tableData.filter((task) => task.task_status_id === 5));
-    // id of order
-    const params = useParams()
-    const {id} = params
+    // items of columns    
+    const axios = useAxiosPrivate();
+    const { id } = useParams(); 
+    const [backlogItems, setBacklogItems] = useState([]);
+    const [inProgressItems, setInProgressItems] = useState([]);
+    const [developmentItems, setDevelopmentItems] = useState([]);
+    const [testingItems, setTestingItems] = useState([]);
+    const [doneItems, setDoneItems] = useState([]);
+    useEffect(() => {
+        GetOrderTasks(axios, id).then((response) => {
+          setBacklogItems(response.data.filter((item) => item.task_status_id === 1))
+          setInProgressItems(response.data.filter((item) => item.task_status_id === 2))
+          setDevelopmentItems(response.data.filter((item) => item.task_status_id === 3))
+          setTestingItems(response.data.filter((item) => item.task_status_id === 4))
+          setDoneItems(response.data.filter((item) => item.task_status_id ===5))
+
+        })
+    }, [])
+
 
 
     //
@@ -82,6 +94,23 @@ const TaskTable = () => {
     
       const handleDrop = (e, column) => {
         const droppedItem = JSON.parse(e.dataTransfer.getData('item'));
+        if(droppedItem.task_status_id === 1 && column === "backlog") {
+          return;
+        }
+        else if (droppedItem.task_status_id === 2 && column === "inProgress") {
+          return;
+        }
+        else if (droppedItem.task_status_id === 3 && column === "development") {
+          return;
+        }
+        else if (droppedItem.task_status_id === 4 && column === "testing"){
+          return ;
+        }
+        else if (droppedItem.task_status_id === 5 && column === "done") {
+          return ;
+        }
+      
+
         switch (droppedItem.task_status_id) {
             case 1:
               setBacklogItems(backlogItems.filter((task) => task.id !== droppedItem.id));
@@ -104,22 +133,27 @@ const TaskTable = () => {
         switch (column) {
           case 'backlog':
             droppedItem.task_status_id = 1
+            UpdateTask(axios, droppedItem)
             setBacklogItems([...backlogItems, droppedItem]);
             break;
           case 'inProgress':
             droppedItem.task_status_id = 2
+            UpdateTask(axios, droppedItem)
             setInProgressItems([...inProgressItems, droppedItem]);
             break;
           case 'development':
             droppedItem.task_status_id = 3
+            UpdateTask(axios, droppedItem)
             setDevelopmentItems([...developmentItems, droppedItem]);
             break;
           case 'testing':
             droppedItem.task_status_id = 4
+            UpdateTask(axios, droppedItem)
             setTestingItems([...testingItems, droppedItem]);
             break;
           case 'done':
             droppedItem.task_status_id= 5
+            UpdateTask(axios, droppedItem)
             setDoneItems([...doneItems, droppedItem]);
             break;
           default:
