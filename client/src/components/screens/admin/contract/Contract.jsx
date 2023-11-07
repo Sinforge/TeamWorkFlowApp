@@ -3,6 +3,7 @@ import styles from '../SharedTable.module.css'
 import GetAllContracts from '../../../../services/admin.service';
 import { CreateContract, UpdateContract, DeleteContract } from '../../../../services/admin.service';
 import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
+
 // const mockData = [
 //     {
 //         id : 1,
@@ -56,6 +57,8 @@ const Contract = () => {
                 <thead>
                     <th>Id</th>
                     <th>Conditions</th>
+                    <th></th>
+                    <th></th>
                 </thead>
                 <tbody>
 

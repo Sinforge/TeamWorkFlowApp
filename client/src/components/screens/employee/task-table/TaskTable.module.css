@@ -1,11 +1,18 @@
 .table {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 10px;
-    height: 100%;
-  }
-  
-  .table > div {
-    background-color: lightgray;
-    padding: 10px;
-  }
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  border-color: whitesmoke
+}
+
+.column {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.column h2 {
+  margin: 0;
+  font-size: 16px;
+  margin-bottom: 10px;
+}

@@ -47,7 +47,7 @@ const Header = () => {
                     <Link className={styles.link} to="/admin/employee-orders">Employee - Orders</Link>
                 </>)}
                 {isUserLoggedIn && (
-                <button onClick={() => setUser({...user, access_token : null})}>Logout</button>
+                <button classNAme={styles.button}onClick={() => setUser({...user, access_token : null})}>Logout</button>
                 )}
 
             </div>

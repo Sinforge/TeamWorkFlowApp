@@ -1,8 +1,42 @@
-.table {
 
-    border-style: solid;
-    text-align: center;
-}
-td {
-    border: solid 2px lightgrey;
-}
+.table {
+    width: 100%;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px;
+    text-align: left;
+    width: fit-content;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .row {
+    background-color: black;
+  }
+  
+  textarea {
+    width: 80%;
+    padding: 8px;
+    resize: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  h2 {
+    margin-top: 16px;
+  }

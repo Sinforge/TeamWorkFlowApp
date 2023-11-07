@@ -4,3 +4,33 @@
     text-decoration: none;
     padding: 40px;
 }
+.preview {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+ .preview h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  .preview .description {
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-right: 50px;
+  }
+  
+.preview .price {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 50px;
+
+  }
+  
+  .preview .stage_id {
+    font-size: 12px;
+    margin-right: 50px;
+
+    color: #999;
+  }

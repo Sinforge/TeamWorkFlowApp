@@ -1,16 +1,29 @@
 .navbar {
-    border-style: solid;
-    border-color: black;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 20px;
     display: flex;
-    justify-content: center;
-}
-.link {
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #333333;
+    color: #ffffff;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .link {
+    margin-right: 10px;
+    color: #ffffff;
     text-decoration: none;
-    color: black;
-    overflow-x: hidden;
-    margin: auto;
-
-
-}
+  }
+  
+  .button {
+    background-color: #ffffff;
+    color: #333333;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #f2f2f2;
+    color: #333333;
+  }

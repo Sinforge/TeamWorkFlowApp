@@ -1,0 +1,53 @@
+.modal {
+    position: fixed;
+    
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal_content {
+    
+    background-color: white;
+    padding: 20px;
+    border-radius: 4px;
+    width: 400px;
+    color: black;
+  }
+  
+  .modal_content h3 {
+    margin-top: 0;
+  }
+  
+  .modal_content input,
+  .modal_content textarea {
+    padding: auto;
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .modal_content div button {
+    padding: 8px 16px;
+    background-color: red;
+    margin-right: 20px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .modal_content button:hover {
+    background-color: #45a049;
+  }
+
+  
+
+  .modal_content button:last-of-type:hover {
+    background-color: orange;
+  }

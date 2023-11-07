@@ -35,6 +35,7 @@ const Router = () => {
     <BrowserRouter>
         <Header/>
         <Routes>
+            <Route element={ <h1 style={{fontSize : 60, textAlign : 'center'}}>Welcome to our site</h1>} path=""/>
             {!isUserLoggedIn &&(
                 <>
                     <Route element={<Login/>} path="/login"/>

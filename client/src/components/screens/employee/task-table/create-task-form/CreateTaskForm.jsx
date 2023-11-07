@@ -15,6 +15,7 @@ const CreateTaskForm = ({orderId}) => {
             <input onChange={e => setForm({...form, name : e.target.value})}/>
             <h2>Description</h2>
             <textarea onChange={e => setForm({...form, description : e.target.value})}/>
+            <br/>
             <button onClick={() => CreateTask(axios, form)}>Create</button>
         </div>
     )

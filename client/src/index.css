@@ -5,9 +5,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #333333;
+  color: #ffffff;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.dark_theme {
+  --background-color: #333333;
+  --text-color: #ffffff;
+  --button-background-color: #555555;
+  --button-text-color: #ffffff;
 }

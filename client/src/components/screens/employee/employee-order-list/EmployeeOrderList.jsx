@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
 import EmployeeOrderPreview from './employee-order-preview/EmployeeOrderPreview'
 import GetEmployeeOrders from '../../../../services/employee.service';
+import styles from './EmployeeOrderList.module.css'
 // const mockData = [
 //     {
 //         id : 1,
@@ -32,12 +33,12 @@ const EmployeeOrderList = () => {
         })
     }, [])
     return (
-        <div>
+        <div className={styles.employee_order_list}>
             {ords.map(order=> 
                 <EmployeeOrderPreview key={order.id} id={order.id}
                  description={order.description}
                  price={order.price}
-                 status_id={order.status_id}/>
+                 stage_id={order.stage_id}/>
             )}
 
         </div>
